@@ -12,7 +12,7 @@ using Vezeeta.Persistence;
 namespace Vezeeta.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250817084438_AddIdentityTables")]
+    [Migration("20250817090155_AddIdentityTables")]
     partial class AddIdentityTables
     {
         /// <inheritdoc />

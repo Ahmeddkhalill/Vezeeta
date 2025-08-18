@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Vezeeta.Persistence;
 
@@ -11,9 +12,11 @@ using Vezeeta.Persistence;
 namespace Vezeeta.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250818070832_AddDoctorsTable")]
+    partial class AddDoctorsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -263,60 +266,6 @@ namespace Vezeeta.Persistence.Migrations
                     b.ToTable("Doctors");
                 });
 
-            modelBuilder.Entity("Vezeeta.Entities.DoctorSchedule", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("DayOfWeek")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DoctorId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DoctorId", "DayOfWeek")
-                        .IsUnique();
-
-                    b.ToTable("DoctorSchedules");
-                });
-
-            modelBuilder.Entity("Vezeeta.Entities.DoctorTimeSlot", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("DoctorScheduleId")
-                        .HasColumnType("int");
-
-                    b.Property<TimeSpan>("EndTime")
-                        .HasColumnType("time");
-
-                    b.Property<bool>("IsBooked")
-                        .HasColumnType("bit");
-
-                    b.Property<decimal>("Price")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<TimeSpan>("StartTime")
-                        .HasColumnType("time");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DoctorScheduleId", "StartTime", "EndTime")
-                        .IsUnique();
-
-                    b.ToTable("DoctorTimeSlots");
-                });
-
             modelBuilder.Entity("Vezeeta.Entities.Specialization", b =>
                 {
                     b.Property<int>("Id")
@@ -406,33 +355,6 @@ namespace Vezeeta.Persistence.Migrations
                     b.Navigation("Specialization");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Vezeeta.Entities.DoctorSchedule", b =>
-                {
-                    b.HasOne("Vezeeta.Entities.Doctor", "Doctor")
-                        .WithMany()
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Doctor");
-                });
-
-            modelBuilder.Entity("Vezeeta.Entities.DoctorTimeSlot", b =>
-                {
-                    b.HasOne("Vezeeta.Entities.DoctorSchedule", "DoctorSchedule")
-                        .WithMany("TimeSlots")
-                        .HasForeignKey("DoctorScheduleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DoctorSchedule");
-                });
-
-            modelBuilder.Entity("Vezeeta.Entities.DoctorSchedule", b =>
-                {
-                    b.Navigation("TimeSlots");
                 });
 #pragma warning restore 612, 618
         }
