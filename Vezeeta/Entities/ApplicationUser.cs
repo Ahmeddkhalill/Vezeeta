@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace Vezeeta.Entities;
+﻿namespace Vezeeta.Entities;
 
 public sealed class ApplicationUser : IdentityUser
 {
