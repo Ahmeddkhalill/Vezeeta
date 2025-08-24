@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Vezeeta.Persistence;
 
@@ -11,9 +12,11 @@ using Vezeeta.Persistence;
 namespace Vezeeta.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250821211247_AddBookingsTable")]
+    partial class AddBookingsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -272,9 +275,6 @@ namespace Vezeeta.Persistence.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<bool>("IsConfirmed")
-                        .HasColumnType("bit");
-
                     b.Property<decimal>("OriginalPrice")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
@@ -401,25 +401,6 @@ namespace Vezeeta.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("DoctorTimeSlots");
-                });
-
-            modelBuilder.Entity("Vezeeta.Entities.Patient", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.ToTable("Patients");
                 });
 
             modelBuilder.Entity("Vezeeta.Entities.Specialization", b =>
@@ -577,17 +558,6 @@ namespace Vezeeta.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("DoctorSchedule");
-                });
-
-            modelBuilder.Entity("Vezeeta.Entities.Patient", b =>
-                {
-                    b.HasOne("Vezeeta.Entities.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Vezeeta.Entities.Doctor", b =>

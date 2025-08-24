@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Vezeeta.Persistence;
 
@@ -11,9 +12,11 @@ using Vezeeta.Persistence;
 namespace Vezeeta.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250820094059_AddDateToDoctorsSchedule")]
+    partial class AddDateToDoctorsSchedule
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -219,9 +222,6 @@ namespace Vezeeta.Persistence.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SpecializationId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -239,87 +239,7 @@ namespace Vezeeta.Persistence.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("SpecializationId");
-
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("Vezeeta.Entities.Booking", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CouponCode")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DoctorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DoctorScheduleId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DoctorTimeSlotId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("FinalPrice")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("IsConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<decimal>("OriginalPrice")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("PatientId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DoctorId");
-
-                    b.HasIndex("DoctorScheduleId");
-
-                    b.HasIndex("DoctorTimeSlotId");
-
-                    b.HasIndex("PatientId");
-
-                    b.ToTable("Bookings");
-                });
-
-            modelBuilder.Entity("Vezeeta.Entities.Coupon", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ExpiryDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Level")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Coupons");
                 });
 
             modelBuilder.Entity("Vezeeta.Entities.Doctor", b =>
@@ -403,25 +323,6 @@ namespace Vezeeta.Persistence.Migrations
                     b.ToTable("DoctorTimeSlots");
                 });
 
-            modelBuilder.Entity("Vezeeta.Entities.Patient", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.ToTable("Patients");
-                });
-
             modelBuilder.Entity("Vezeeta.Entities.Specialization", b =>
                 {
                     b.Property<int>("Id")
@@ -494,50 +395,6 @@ namespace Vezeeta.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Vezeeta.Entities.ApplicationUser", b =>
-                {
-                    b.HasOne("Vezeeta.Entities.Specialization", "Specialization")
-                        .WithMany()
-                        .HasForeignKey("SpecializationId");
-
-                    b.Navigation("Specialization");
-                });
-
-            modelBuilder.Entity("Vezeeta.Entities.Booking", b =>
-                {
-                    b.HasOne("Vezeeta.Entities.Doctor", "Doctor")
-                        .WithMany()
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Vezeeta.Entities.DoctorSchedule", "DoctorSchedule")
-                        .WithMany()
-                        .HasForeignKey("DoctorScheduleId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Vezeeta.Entities.DoctorTimeSlot", "DoctorTimeSlot")
-                        .WithMany()
-                        .HasForeignKey("DoctorTimeSlotId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Vezeeta.Entities.ApplicationUser", "Patient")
-                        .WithMany()
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Doctor");
-
-                    b.Navigation("DoctorSchedule");
-
-                    b.Navigation("DoctorTimeSlot");
-
-                    b.Navigation("Patient");
-                });
-
             modelBuilder.Entity("Vezeeta.Entities.Doctor", b =>
                 {
                     b.HasOne("Vezeeta.Entities.Specialization", "Specialization")
@@ -560,7 +417,7 @@ namespace Vezeeta.Persistence.Migrations
             modelBuilder.Entity("Vezeeta.Entities.DoctorSchedule", b =>
                 {
                     b.HasOne("Vezeeta.Entities.Doctor", "Doctor")
-                        .WithMany("DoctorSchedules")
+                        .WithMany()
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -577,22 +434,6 @@ namespace Vezeeta.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("DoctorSchedule");
-                });
-
-            modelBuilder.Entity("Vezeeta.Entities.Patient", b =>
-                {
-                    b.HasOne("Vezeeta.Entities.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Vezeeta.Entities.Doctor", b =>
-                {
-                    b.Navigation("DoctorSchedules");
                 });
 
             modelBuilder.Entity("Vezeeta.Entities.DoctorSchedule", b =>
