@@ -1,6 +1,6 @@
 ﻿namespace Vezeeta.Features.Authentication.Commands.Register;
 
-public record RegisterRequest 
+public record RegisterRequest
     (
         string Email,
         string FirstName,
@@ -10,4 +10,4 @@ public record RegisterRequest
         DateOnly DateOfBirth,
         string PhoneNumber,
         IFormFile? Image
-    ) : IRequest<AuthResponse?>;
+    ) : IRequest<Result<AuthResponse>>;
