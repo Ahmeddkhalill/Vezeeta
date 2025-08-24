@@ -4,7 +4,8 @@ public class DoctorSchedule
 {
     public int Id { get; set; }
     public int DoctorId { get; set; }
-    public DayOfWeek DayOfWeek { get; set; }  
+    public DateOnly Date { get; set; } 
+    public DayOfWeek DayOfWeek { get; set; }
 
     public Doctor? Doctor { get; set; }
     public ICollection<DoctorTimeSlot> TimeSlots { get; set; } = [];

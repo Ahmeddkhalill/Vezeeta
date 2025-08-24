@@ -7,6 +7,10 @@ public sealed class ApplicationUser : IdentityUser
     public DateOnly DateOfBirth { get; set; }
     public Gender Gender { get; set; }
     public string? Image { get; set; }
+
+    public int? SpecializationId { get; set; }
+    public Specialization? Specialization { get; set; }
+
 }
 
 public enum Gender
