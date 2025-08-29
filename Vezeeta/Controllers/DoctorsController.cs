@@ -15,7 +15,6 @@ namespace Vezeeta.Controllers;
 [ApiController]
 public class DoctorsController : BaseApiController
 {
-    // ========== Endpoints خاصة بالـ Admin ==========
     [HttpGet("")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetAllDoctors()
@@ -56,7 +55,7 @@ public class DoctorsController : BaseApiController
         return result.IsSuccess ? NoContent() : result.ToProblem();
     }
 
-    // ========== Endpoints خاصة بالـ Doctor ==========
+
     [HttpPost("AddSchedule")]
     [Authorize(Roles = "Doctor")]
     public async Task<IActionResult> AddSchedule([FromBody] AddDoctorScheduleRequest request)

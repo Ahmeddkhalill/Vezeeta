@@ -1,0 +1,10 @@
+{"@t":"2025-08-24T07:56:33.5412432Z","@mt":"Now listening on: {address}","address":"https://localhost:7206","EventId":{"Id":14,"Name":"ListeningOnAddress"},"SourceContext":"Microsoft.Hosting.Lifetime"}
+{"@t":"2025-08-24T07:56:33.5620332Z","@mt":"Now listening on: {address}","address":"http://localhost:5141","EventId":{"Id":14,"Name":"ListeningOnAddress"},"SourceContext":"Microsoft.Hosting.Lifetime"}
+{"@t":"2025-08-24T07:56:33.6191151Z","@mt":"Application started. Press Ctrl+C to shut down.","SourceContext":"Microsoft.Hosting.Lifetime"}
+{"@t":"2025-08-24T07:56:33.6208520Z","@mt":"Hosting environment: {EnvName}","EnvName":"Development","SourceContext":"Microsoft.Hosting.Lifetime"}
+{"@t":"2025-08-24T07:56:33.6273702Z","@mt":"Content root path: {ContentRoot}","ContentRoot":"C:\\Users\\Ahmed\\Documents\\GitHub\\Vezeeta\\Vezeeta","SourceContext":"Microsoft.Hosting.Lifetime"}
+{"@t":"2025-08-24T08:01:22.3426292Z","@mt":"Now listening on: {address}","address":"https://localhost:7206","EventId":{"Id":14,"Name":"ListeningOnAddress"},"SourceContext":"Microsoft.Hosting.Lifetime"}
+{"@t":"2025-08-24T08:01:22.3614604Z","@mt":"Now listening on: {address}","address":"http://localhost:5141","EventId":{"Id":14,"Name":"ListeningOnAddress"},"SourceContext":"Microsoft.Hosting.Lifetime"}
+{"@t":"2025-08-24T08:01:22.5535227Z","@mt":"Application started. Press Ctrl+C to shut down.","SourceContext":"Microsoft.Hosting.Lifetime"}
+{"@t":"2025-08-24T08:01:22.5559431Z","@mt":"Hosting environment: {EnvName}","EnvName":"Development","SourceContext":"Microsoft.Hosting.Lifetime"}
+{"@t":"2025-08-24T08:01:22.5570430Z","@mt":"Content root path: {ContentRoot}","ContentRoot":"C:\\Users\\Ahmed\\Documents\\GitHub\\Vezeeta\\Vezeeta","SourceContext":"Microsoft.Hosting.Lifetime"}

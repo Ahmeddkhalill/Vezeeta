@@ -1,15 +1,10 @@
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using System.Globalization;
-using System.Reflection;
-using System.Text;
-using Vezeeta;
-using Vezeeta.Authentication;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +16,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+
+Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateBootstrapLogger();
+
+builder.Host.UseSerilog((context, services, loggerConfiguration) =>
+    loggerConfiguration
+        .ReadFrom.Configuration(context.Configuration) 
+        .ReadFrom.Services(services)
+        .Enrich.FromLogContext()
+);
+
 
 var configuration = builder.Configuration;
 
@@ -53,6 +58,7 @@ builder.Services.AddLocalization();
 
 builder.Services.AddSingleton<IStringLocalizerFactory, JsonStringLocalizerFactory>();
 builder.Services.AddSingleton<IStringLocalizer, JsonStringLocalizer>();
+
 builder.Services
     .AddControllers()
     .AddDataAnnotationsLocalization()
@@ -136,6 +142,8 @@ if (app.Environment.IsDevelopment())
         c.RoutePrefix = string.Empty;
     });
 }
+
+app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 

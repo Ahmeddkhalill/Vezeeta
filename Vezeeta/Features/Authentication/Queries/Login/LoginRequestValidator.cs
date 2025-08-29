@@ -1,13 +1,14 @@
-﻿using FluentValidation;
-
-namespace Vezeeta.Features.Authentication.Queries.Login;
+﻿namespace Vezeeta.Features.Authentication.Queries.Login;
 
 public class LoginRequestValidator : AbstractValidator<LoginRequest>
 {
-    public LoginRequestValidator()
+    public LoginRequestValidator(IStringLocalizer<LoginRequestValidator> localizer)
     {
-        RuleFor(x => x.Email).NotEmpty().EmailAddress().WithMessage("Email is required and must be a valid email address.");
+        RuleFor(x => x.Email)
+            .NotEmpty().WithMessage(localizer["EmailRequired"])
+            .EmailAddress().WithMessage(localizer["EmailInvalid"]);
 
-        RuleFor(x => x.Password).NotEmpty();
+        RuleFor(x => x.Password)
+            .NotEmpty().WithMessage(localizer["PasswordRequired"]);
     }
 }

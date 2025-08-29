@@ -20,7 +20,8 @@ public class JsonStringLocalizer : IStringLocalizer
         get
         {
             var actualValue = this[name];
-            return !actualValue.ResourceNotFound ? new LocalizedString(name, string.Format(actualValue.Value, arguments)) : actualValue;
+            return !actualValue.ResourceNotFound 
+                ? new LocalizedString(name, string.Format(actualValue.Value, arguments)) : actualValue;
         }
     }
 

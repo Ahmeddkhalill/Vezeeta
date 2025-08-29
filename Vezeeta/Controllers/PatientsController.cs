@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Vezeeta.Features.Patients.Commands.BookDoctor;
+﻿using Vezeeta.Features.Patients.Commands.BookDoctor;
 using Vezeeta.Features.Patients.Queries.GetAllPatient;
 
 namespace Vezeeta.Controllers;

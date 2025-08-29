@@ -1,23 +1,26 @@
-﻿using Vezeeta.Authentication;
+﻿namespace Vezeeta.Features.Authentication.Queries.Login;
 
-namespace Vezeeta.Features.Authentication.Queries.Login;
-
-public class LoginHandler(UserManager<ApplicationUser> userManager, IJwtProvider jwtProvider) : IRequestHandler<LoginRequest, Result<AuthResponse>>
+public class LoginHandler(
+    UserManager<ApplicationUser> userManager,
+    IJwtProvider jwtProvider,
+    IStringLocalizer<LoginHandler> localizer) : IRequestHandler<LoginRequest, Result<AuthResponse>>
 {
     private readonly UserManager<ApplicationUser> _userManager = userManager;
     private readonly IJwtProvider _jwtProvider = jwtProvider;
+    private readonly IStringLocalizer<LoginHandler> _localizer = localizer;
 
     public async Task<Result<AuthResponse>> Handle(LoginRequest request, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByEmailAsync(request.Email);
 
         if (user is null)
-            return Result.Failure<AuthResponse>(UserErrors.InvalidCredentials);
+            return Result.Failure<AuthResponse>(new Error(UserErrors.InvalidCredentials.Code,_localizer["InvalidCredentials"],UserErrors.InvalidCredentials.statusCode)
+   );
 
         var isValidPassword = await _userManager.CheckPasswordAsync(user, request.Password);
 
         if (!isValidPassword)
-            return Result.Failure<AuthResponse>(UserErrors.InvalidCredentials);
+            return Result.Failure<AuthResponse>(new Error(UserErrors.InvalidCredentials.Code,_localizer["InvalidCredentials"],UserErrors.InvalidCredentials.statusCode));
 
         var userRoles = await _userManager.GetRolesAsync(user);
 

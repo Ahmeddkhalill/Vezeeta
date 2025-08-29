@@ -29,13 +29,13 @@ public class GetAllDoctorsHandler(ApplicationDbContext context)
             Specialization: d.Specialization?.Name ?? string.Empty,
             Gender: d.User.Gender.ToString(),
             Schedules: d.DoctorSchedules
-                .Where(s => s.TimeSlots.Any(ts => !ts.IsBooked)) // بس اللي فيها مواعيد متاحة
+                .Where(s => s.TimeSlots.Any(ts => !ts.IsBooked)) 
                 .Select(s => new DoctorScheduleDto(
                     Id: s.Id,
                     Date: s.Date,
                     DayOfWeek: s.DayOfWeek.ToString(),
                     TimeSlots: s.TimeSlots
-                        .Where(ts => !ts.IsBooked) // بس المتاحة
+                        .Where(ts => !ts.IsBooked)
                         .Select(ts => new DoctorTimeSlotDto(
                             Id: ts.Id,
                             StartTime: ts.StartTime.ToString(@"hh\\:mm"),

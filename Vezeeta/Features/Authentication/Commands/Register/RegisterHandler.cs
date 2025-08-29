@@ -1,12 +1,8 @@
-﻿using Vezeeta.Authentication;
+﻿namespace Vezeeta.Features.Authentication.Commands.Register;
 
-namespace Vezeeta.Features.Authentication.Commands.Register;
-
-public class RegisterHandler(
-    UserManager<ApplicationUser> userManager,
-    IJwtProvider jwtProvider,
-    IWebHostEnvironment env,
-    ApplicationDbContext context) : IRequestHandler<RegisterRequest, Result<AuthResponse>>
+public class RegisterHandler(UserManager<ApplicationUser> userManager, IJwtProvider jwtProvider,
+    IWebHostEnvironment env, ApplicationDbContext context)
+    : IRequestHandler<RegisterRequest, Result<AuthResponse>>
 {
     private readonly UserManager<ApplicationUser> _userManager = userManager;
     private readonly IJwtProvider _jwtProvider = jwtProvider;
@@ -23,9 +19,7 @@ public class RegisterHandler(
         string? imagePath = null;
         if (request.Image is not null)
         {
-            var uploadsFolder = Path.Combine(_env.WebRootPath, "images", "users");
-            Directory.CreateDirectory(uploadsFolder);
-
+            var uploadsFolder = Path.Combine(_env.WebRootPath, "images", "users"); Directory.CreateDirectory(uploadsFolder);
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(request.Image.FileName)}";
             var filePath = Path.Combine(uploadsFolder, fileName);
 
@@ -48,30 +42,23 @@ public class RegisterHandler(
             DateOfBirth = request.DateOfBirth,
             Image = imagePath
         };
-
         var result = await _userManager.CreateAsync(user, request.Password);
-
         if (result.Succeeded)
         {
             await _userManager.AddToRoleAsync(user, "Patient");
-
             var patient = new Patient
             {
                 ApplicationUserId = user.Id,
                 User = user
             };
 
-            _context.Patients.Add(patient);
-            await _context.SaveChangesAsync(cancellationToken);
-
-            var userRoles = await _userManager.GetRolesAsync(user);
-            var (token, expiresIn) = _jwtProvider.GenerateToken(user, userRoles);
+            _context.Patients.Add(patient); await _context.SaveChangesAsync(cancellationToken);
+            var userRoles = await _userManager.GetRolesAsync(user); var (token, expiresIn) = _jwtProvider.GenerateToken(user, userRoles);
 
             var response = new AuthResponse(user.Id, user.Email, user.FirstName, user.LastName, token, expiresIn);
-
             return Result.Success(response);
-        }
 
+        }
         var error = result.Errors.First();
         return Result.Failure<AuthResponse>(new(error.Code, error.Description, StatusCodes.Status400BadRequest));
     }

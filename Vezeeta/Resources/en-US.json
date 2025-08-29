@@ -1,6 +1,10 @@
 {
-  "Hello": "Hello",
-  "Welcome": "Welcome to Vezeeta"
+  "InvalidCredentials": "Invalid email or password.",
+  "EmailRequired": "Email is required.",
+  "EmailInvalid": "Email must be a valid address.",
+  "PasswordRequired": "Password is required.",
+  "DuplicatedCode": "A coupon with this code already exists.",
+  "CodeRequired": "Coupon code is required.",
+  "CodeMaxLength": "Coupon code cannot exceed 50 characters.",
+  "ExpiryDateFuture": "Expiry date must be in the future."
 }
-
-

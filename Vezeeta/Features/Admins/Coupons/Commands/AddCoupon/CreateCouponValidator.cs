@@ -2,13 +2,13 @@
 
 public class CreateCouponValidator : AbstractValidator<CreateCouponRequest>
 {
-    public CreateCouponValidator()
+    public CreateCouponValidator(IStringLocalizer<CreateCouponValidator> localizer)
     {
         RuleFor(x => x.Code)
-            .NotEmpty()
-            .MaximumLength(50);
+            .NotEmpty().WithMessage(localizer["CodeRequired"])
+            .MaximumLength(50).WithMessage(localizer["CodeMaxLength"]);
 
         RuleFor(x => x.ExpiryDate)
-            .GreaterThan(DateTime.UtcNow).WithMessage("Expiry date must be in the future.");
+            .GreaterThan(DateTime.UtcNow).WithMessage(localizer["ExpiryDateFuture"]);
     }
 }
